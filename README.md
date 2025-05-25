@@ -7,6 +7,10 @@ To start with these include:
 * Say Hello.
 
 
+# ideas
+* would be nice to have more feedback while scanning large directory trees
+* would be nice to have some sort of --check or --preview flag for items that modify the file tree
+
 
 # Build
 * linux: `cargo build --release`

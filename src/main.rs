@@ -1,5 +1,6 @@
 mod checks;
 mod hello;
+mod media_mover;
 use std::path::PathBuf;
 
 use anyhow::Result;
@@ -17,6 +18,9 @@ enum Action {
     /// Move all media files in the target folder
     /// into new folders with the same name as the
     /// media file.
+    ///
+    /// If a media file instead of a folder is passed as
+    /// the argument then it moves only that one file.
     MoveToFolders { path: PathBuf },
 }
 
@@ -45,7 +49,16 @@ fn main() -> Result<()> {
                 }
             }
         }
-        Action::MoveToFolders { path } => todo!(),
+        Action::MoveToFolders { path } => {
+            println!("Scanning: {:#?} to locate media files...", &path);
+            let media_files = media_mover::list_media_files(&path)?;
+            println!("Found {} files!", media_files.len());
+
+            for file in media_files {
+                println!("Moving: {:?}", &file);
+                media_mover::folderize(&file)?;
+            }
+        }
     };
 
     Ok(())
